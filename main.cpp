@@ -3,7 +3,7 @@
 #include <string>
 #include <algorithm>
 using namespace std;
-void menu_display( ){
+void menu_display( ){ //menu display function
      string Menu_options[8] = {
         "1- Print questions to me", 
         "2- Print questions from me", 
@@ -45,9 +45,10 @@ class question {
     int asked_to_user_id;
     int answered_by_user_id;
     string answer_text;
+    bool is_answered;
     public:
-    question(int q_id = 0, string q_text = "", int asked_by = 0, int asked_to = 0, int answered_by = 0, string a_text = "") 
-        : question_id(q_id), question_text(q_text), asked_by_user_id(asked_by), asked_to_user_id(asked_to), answered_by_user_id(answered_by), answer_text(a_text) {}
+    question(int q_id = 0, string q_text = "", int asked_by = 0, int asked_to = 0, int answered_by = 0, string a_text = "", bool is_answered = false) 
+        : question_id(q_id), question_text(q_text), asked_by_user_id(asked_by), asked_to_user_id(asked_to), answered_by_user_id(answered_by), answer_text(a_text), is_answered(is_answered) {}
         
     int get_question_id() const { return question_id; }
     string get_question_text() const { return question_text; }
