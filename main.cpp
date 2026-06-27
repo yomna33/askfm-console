@@ -3,22 +3,29 @@
 #include <string>
 #include <algorithm>
 using namespace std;
+
+
+
+
 void menu_display( ){ //menu display function
-     string Menu_options[8] = {
+     string Menu_options[9] = {
         "1- Print questions to me", 
         "2- Print questions from me", 
         "3- Answer question",
         "4- Delete question",
-        "5-Ask question" , 
+        "5- Ask question" , 
         "6- list system users" ,
-        "7-feed" , 
-        "8-logout"
+        "7- feed" , 
+        "8- logout",
+        "9- exit"
         };
 
-    for(int i = 0; i < 8; i++){
+    for(int i = 0; i < 9; i++){
         cout << Menu_options[i] << endl;
     }
 }
+
+
 
 
 class user {
@@ -26,6 +33,9 @@ class user {
     string username;
     string password;
     int id;
+    vector<question> questions_asked;
+    vector<question> questions_answered;
+
     
     public:
     user(int id = 0, string username = "", string password = "") 
@@ -37,27 +47,7 @@ class user {
     
 };
 
-class question {
-    private:
-    int question_id;
-    string question_text;
-    int asked_by_user_id;
-    int asked_to_user_id;
-    int answered_by_user_id;
-    string answer_text;
-    bool is_answered;
-    public:
-    question(int q_id = 0, string q_text = "", int asked_by = 0, int asked_to = 0, int answered_by = 0, string a_text = "", bool is_answered = false) 
-        : question_id(q_id), question_text(q_text), asked_by_user_id(asked_by), asked_to_user_id(asked_to), answered_by_user_id(answered_by), answer_text(a_text), is_answered(is_answered) {}
-        
-    int get_question_id() const { return question_id; }
-    string get_question_text() const { return question_text; }
-    int get_asked_by_user_id() const { return asked_by_user_id; }
-    int get_asked_to_user_id() const { return asked_to_user_id; }
-    int get_answered_by_user_id() const { return answered_by_user_id; }
-    string get_answer_text() const { return answer_text; }
 
-};
 
 class System {
     private:
@@ -65,8 +55,12 @@ class System {
     vector<question> questions;
     int current_user_id;
     public:
+    void set_current_user_id(int id) { current_user_id = id; }
     void add_user(const user& new_user) {
         users.push_back(new_user);
+    }
+    int get_users_count() const {
+        return users.size();
     }
     void add_question(const question& new_question) {
         questions.push_back(new_question);
@@ -127,9 +121,7 @@ class System {
     }
       
 }
-    void logout() {
-        cout << "Logging out..." << endl;
-    }
+   
     void print_questions_to_me(int user_id) {
         cout << "Questions to me:" << endl;
         for (const auto& q : questions) {
@@ -168,8 +160,9 @@ class System {
     void delete_question() {
         cout<<"enter question id to delete: ";
         int q_id;
+        int current_user_id;
         cin >> q_id;
-        if (q_id != current_user_id && q_id != 1) {
+        if (asked != current_user_id && q_id != 1) {
             cout << "You don't have permission to delete this question." << endl;
             return;
         }
@@ -192,12 +185,52 @@ class System {
 
 };
 
+
+
+int register_page(System& my_system) {
+   
+    int choice; 
+    cout<<"1- Login" << endl;
+    cout<<"2- sign up" << endl;
+    cin>> choice;
+    int current_user_id = 0;
+    if(choice == 1){
+        current_user_id = my_system.login();
+        return current_user_id;
+    }
+    else if(choice == 2){
+        string username, password;
+        cout << "Enter username: ";
+        cin >> username;
+        cout << "Enter password: ";
+        cin >> password;
+        int new_id = my_system.get_users_count() + 1; // Simple ID generation
+        user new_user(new_id, username, password);
+        my_system.add_user(new_user);
+        cout << "Registration successful! You can now log in." << endl;
+        current_user_id = my_system.login();
+        return current_user_id;
+    }
+    else {
+        cout << "Invalid choice. Please try again." << endl;
+    }
+
+
+}
+
 int main() {
     System my_system;
     my_system.add_user(user(1, "admin", "admin123"));
-    my_system.login();
+   
+while(true) {
+  
+    int current_user_id = register_page(my_system);
+     bool is_logged_in = true;
+
+    my_system.set_current_user_id(current_user_id);
+
     
-    while (true) {
+    while ( is_logged_in == true) {
         menu_display();
         int choice;
         cout << "Enter your choice: ";
@@ -218,7 +251,7 @@ int main() {
                 break;
             case 4:
                 // Code to delete question
-                cout << "Deleting question..." << endl;
+                my_system.delete_question();
                 break;
             case 5:
                 // Code to ask question
@@ -233,8 +266,12 @@ int main() {
                 cout << "Showing feed..." << endl;
                 break;
             case 8:
-                // Code to logout
+                is_logged_in = false;
+                my_system.set_current_user_id(0);
                 cout << "Logging out..." << endl;
+                break;
+            case 9:
+                cout << "Exiting program..." << endl;
                 return 0;
             default:
                 cout << "Invalid choice. Please try again." << endl;
@@ -242,5 +279,5 @@ int main() {
     }
     
    
-    
+}
 }
