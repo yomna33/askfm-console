@@ -1,4 +1,3 @@
-#pragma once
 #include "System.h"
 
 System::System() : current_user_id(0), next_question_id(1) {}
