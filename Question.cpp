@@ -10,6 +10,7 @@ int Question::get_asked_to_user_id() const { return asked_to_user_id; }
 string Question::get_answer_text() const { return answer_text; }
 bool Question::get_is_answered() const { return is_answered; }
 
+
 void Question::set_answer(const string& answer) {
     answer_text = answer;
     is_answered = true;

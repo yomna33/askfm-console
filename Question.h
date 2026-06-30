@@ -7,6 +7,8 @@ private:
     int question_id;
     string question_text;
     int asked_by_user_id;
+    string asked_by_username;
+    string asked_to_username;
     int asked_to_user_id;
     string answer_text;
     bool is_answered;
@@ -20,6 +22,5 @@ public:
     int get_asked_to_user_id() const;
     string get_answer_text() const;
     bool get_is_answered() const;
-
     void set_answer(const string& answer);
 };

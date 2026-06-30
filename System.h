@@ -25,4 +25,5 @@ public:
 
     int get_current_user_id() const;
     void set_current_user_id(int id);
+    string get_username_by_id(int id);
 };

@@ -19,3 +19,13 @@ int System::get_next_question_id() { return next_question_id++; }
 
 int System::get_current_user_id() const { return current_user_id; }
 void System::set_current_user_id(int id) { current_user_id = id; }
+string System::get_username_by_id(int id) {
+    if (id == 0) {
+        return "everyone";
+    }
+    for (const auto& u : users)
+        if (u.get_id() == id)
+            return u.get_username();
+    return "Unknown";
+}
+}
