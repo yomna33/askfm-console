@@ -1,4 +1,4 @@
-cpp#include <iostream>
+#include <iostream>
 #include "System.h"
 #include "AuthManager.h"
 #include "QuestionManager.h"
@@ -8,13 +8,13 @@ using namespace std;
 
 
 int main() {
-    System my_system;
-    my_system.add_user(user(1, "admin", "admin123"));
+    System sys;
+    sys.add_user(User(1, "admin", "admin123"));
    
 while(true) {
   
-    int current_user_id =AuthManager::register_page(my_system);
-    my_system.set_current_user_id(current_user_id);
+    int uid =AuthManager::register_user(sys);
+    sys.set_current_user_id(uid);
     bool is_logged_in = true;
 
     
@@ -50,7 +50,7 @@ while(true) {
             print_feed(sys);
             break;
         case 8:
-            logged_in = false;
+            is_logged_in = false;
             sys.set_current_user_id(0);
             cout << "Logged out." << endl;
             break;

@@ -10,7 +10,7 @@ System::System() : current_user_id(0), next_question_id(1) {
 }
 
 void System::add_user(const User& u) { users.push_back(u); }
-int System::get_users_count() const { return users.size(); }
+int System::get_users_count() const { return (int)users.size(); }
 vector<User>& System::get_users() { return users; }
 
 void System::add_question(const Question& q) { questions.push_back(q); }
@@ -27,5 +27,4 @@ string System::get_username_by_id(int id) {
         if (u.get_id() == id)
             return u.get_username();
     return "Unknown";
-}
 }
