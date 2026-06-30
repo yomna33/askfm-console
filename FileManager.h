@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 #include "User.h"
 #include "Question.h"
 using namespace std;
@@ -8,7 +9,6 @@ class FileManager {
 private:
     static const string USERS_FILE;
     static const string QUESTIONS_FILE;
-
     static vector<string> split(const string& line, char delimiter);
 
 public:
