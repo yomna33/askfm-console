@@ -36,7 +36,10 @@ void print_feed(System& sys) {
             << "To: [" << q.get_asked_to_user_id() << "] " << sys.get_username_by_id(q.get_asked_to_user_id()) << "\n"
             << "Q: " << q.get_question_text() << "\n";
         if (q.get_is_answered())
-            cout << "A: " << q.get_answer_text() << "\n";
+            for (const auto& a : q.get_answers())
+                cout << "A: [" << a.answered_by_id << "] "
+                << sys.get_username_by_id(a.answered_by_id)
+                << ": " << a.answer_text << "\n";
         else
             cout << "A: Not yet answered\n";
         cout << "-----------------------------\n";
@@ -50,9 +53,15 @@ void print_questions_to_me(System& sys, int user_id) {
         if (q.get_asked_to_user_id() != user_id && q.get_asked_to_user_id() != 0) continue;
         cout << "Question ID: " << q.get_question_id() << "\n"
             << "From: [" << q.get_asked_by_user_id() << "] " << sys.get_username_by_id(q.get_asked_by_user_id()) << "\n"
-            << "Q: " << q.get_question_text() << "\n"
-            << "A: " << (q.get_is_answered() ? q.get_answer_text() : "Not yet answered") << "\n"
-            << "-----------------------------\n";
+            << "Q: " << q.get_question_text() << "\n";
+        if (q.get_is_answered())
+            for (const auto& a : q.get_answers())
+                cout << "A: [" << a.answered_by_id << "] "
+                << sys.get_username_by_id(a.answered_by_id)
+                << ": " << a.answer_text << "\n";
+        else
+            cout << "A: Not yet answered\n";
+        cout << "-----------------------------\n";
     }
 }
 
@@ -63,8 +72,14 @@ void print_questions_from_me(System& sys, int user_id) {
         if (q.get_asked_by_user_id() != user_id) continue;
         cout << "Question ID: " << q.get_question_id() << "\n"
             << "To: [" << q.get_asked_to_user_id() << "] " << sys.get_username_by_id(q.get_asked_to_user_id()) << "\n"
-            << "Q: " << q.get_question_text() << "\n"
-            << "A: " << (q.get_is_answered() ? q.get_answer_text() : "Not yet answered") << "\n"
-            << "-----------------------------\n";
+            << "Q: " << q.get_question_text() << "\n";
+        if (q.get_is_answered())
+            for (const auto& a : q.get_answers())
+                cout << "A: [" << a.answered_by_id << "] "
+                << sys.get_username_by_id(a.answered_by_id)
+                << ": " << a.answer_text << "\n";
+        else
+            cout << "A: Not yet answered\n";
+        cout << "-----------------------------\n";
     }
 }

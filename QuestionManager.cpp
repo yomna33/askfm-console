@@ -49,7 +49,8 @@ void QuestionManager::answer_question(System& sys, int current_user_id) {
     cin.ignore();
     string answer_text;
     getline(cin, answer_text);
-    it->set_answer(answer_text);
+    it->add_answer(current_user_id, answer_text);
+	cout << "Your answer has been posted successfully!\n";
 }
 
 void QuestionManager::delete_question(System& sys, int current_user_id) {
